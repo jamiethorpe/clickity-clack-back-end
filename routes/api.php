@@ -3,6 +3,7 @@
 use App\Events\ShowdownNotification;
 use App\Http\Controllers\PerformanceController;
 use App\Http\Controllers\ShowdownController;
+use App\Http\Controllers\StatsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,3 +28,6 @@ Route::get('/showdown/{showdown}/confirm', [ShowdownController::class, 'confirm'
 
 Route::post('/showdown/{showdown}/round/{round}/performance', [PerformanceController::class, 'store'])
     ->name('performance.store');
+
+Route::get('/users/{user}/stats/win-loss', [StatsController::class, 'winLoss'])
+    ->name('stats.win-loss');
