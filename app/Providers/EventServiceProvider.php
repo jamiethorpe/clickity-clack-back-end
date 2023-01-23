@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Actions\DeleteCombatantsOrphanedShowdowns;
+use App\Events\CombatantAddedToShowdown;
 use App\Events\PerformanceCreated;
 use App\Events\RoundCompleted;
 use App\Listeners\HandlePerformanceCreated;
@@ -22,6 +24,10 @@ class EventServiceProvider extends ServiceProvider
 //        Registered::class => [
 //            SendEmailVerificationNotification::class,
 //        ],
+
+        CombatantAddedToShowdown::class => [
+            DeleteCombatantsOrphanedShowdowns::class
+        ],
 
         PerformanceCreated::class => [
             HandlePerformanceCreated::class,

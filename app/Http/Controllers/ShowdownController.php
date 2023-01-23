@@ -18,8 +18,10 @@ class ShowdownController extends Controller
             $user = CreateAnonymousUser::run();
         }
 
-        $showdown = Showdown::withCount('combatants')
-            ->having('combatants_count', '<', 2)->first();
+        $showdown = Showdown::whereNot('user_id', $user->id)
+            ->withCount('combatants')
+            ->having('combatants_count', '<', 2)
+            ->first();
 
         if (!$showdown) {
             $showdown = CreateShowdown::run();
