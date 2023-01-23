@@ -2,6 +2,7 @@
 
 namespace App\Actions;
 
+use App\Events\CombatantAddedToShowdown;
 use App\Events\ShowdownReady;
 use App\Models\Showdown;
 use App\Models\User;
@@ -12,15 +13,16 @@ class AddCombatantToShowdown
 {
     use AsAction;
 
-    public function handle(Showdown $showdown, User $combatant)
+    public function handle(Showdown $showdown, User $combatant): Showdown
     {
-        // TODO - ensure combatant is not already in the showdown
         $showdown->combatants()->attach($combatant);
 
         if ($showdown->refresh()->combatants()->count() === 2) {
             // TODO - this could be a job
             CreateRounds::run($showdown);
         }
+
+        CombatantAddedToShowdown::dispatch($combatant, $showdown);
 
         return $showdown;
     }
