@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -33,5 +34,10 @@ class Showdown extends Model
     public function rounds()
     {
         return $this->hasMany(Round::class);
+    }
+
+    public function scopeCompleted(Builder $query)
+    {
+        return $query->whereNotNull('showdowns.user_id');
     }
 }
