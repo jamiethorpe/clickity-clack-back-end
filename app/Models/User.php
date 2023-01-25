@@ -53,6 +53,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Showdown::class, 'showdowns_users')->withTimestamps();
     }
 
+    public function roundsWon()
+    {
+        return $this->hasMany(Round::class);
+    }
+
     public function wins()
     {
         return $this->showdowns()->completed()->where('showdowns.user_id', $this->id);
@@ -60,7 +65,7 @@ class User extends Authenticatable
 
     public function losses()
     {
-        return $this->showdowns()->completed()->whereNot('showdowns.user_id',  $this->id);
+        return $this->showdowns()->completed()->whereNot('showdowns.user_id', $this->id);
     }
 
     /**

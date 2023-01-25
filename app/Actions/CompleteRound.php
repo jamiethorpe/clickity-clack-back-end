@@ -12,6 +12,7 @@ class CompleteRound
 
     public function handle(Round $round)
     {
+        // Determine the round winner
         $round->user_id = $round->performances->sortBy('duration')->first()->user_id;
         // TODO - handle possible ties
         $round->save();

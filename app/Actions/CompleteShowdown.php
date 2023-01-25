@@ -4,6 +4,7 @@ namespace App\Actions;
 
 use App\Events\ShowdownCompleted;
 use App\Models\Showdown;
+use App\Models\User;
 use Lorisleiva\Actions\Concerns\AsAction;
 
 class CompleteShowdown
@@ -12,14 +13,13 @@ class CompleteShowdown
 
     /**
      * @param Showdown $showdown
+     * @param User $winner
      * @return Showdown
      */
-    public function handle(Showdown $showdown): Showdown
+    public function handle(Showdown $showdown, User $winner): Showdown
     {
-        $winner = $showdown->rounds->groupBy('user_id')->sortBy('count')
-            ->first()->pluck('user_id')->first();
-
         $showdown->user_id = $winner->id;
+        $showdown->completed_at = now();
         $showdown->save();
 
         ShowdownCompleted::dispatch($showdown);
