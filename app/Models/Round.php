@@ -17,8 +17,6 @@ class Round extends Model
         'technique',
     ];
 
-    // 984e2106-5f8b-440b-b1d6-e54b6cbc1791
-
     public function showdown()
     {
         return $this->belongsTo(Showdown::class);
