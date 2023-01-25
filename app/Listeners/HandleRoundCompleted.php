@@ -3,9 +3,8 @@
 namespace App\Listeners;
 
 use App\Actions\CompleteShowdown;
+use App\Actions\DetermineIfShowdownHasWinner;
 use App\Events\RoundCompleted;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 
 class HandleRoundCompleted
 {
@@ -22,15 +21,13 @@ class HandleRoundCompleted
     /**
      * Handle the event.
      *
-     * @param  object  $event
+     * @param RoundCompleted $event
      * @return void
      */
-    public function handle(RoundCompleted $event)
+    public function handle(RoundCompleted $event): void
     {
-        if ($event->round->showdown->rounds()->completed()->count() !== config('showdown.rounds')) {
-            return;
+        if ($winner = DetermineIfShowdownHasWinner::run($event->round->showdown)) {
+            CompleteShowdown::run($event->round->showdown, $winner);
         }
-
-        CompleteShowdown::run($event->round->showdown);
     }
 }
