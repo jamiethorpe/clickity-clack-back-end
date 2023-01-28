@@ -1,10 +1,8 @@
 <?php
 
-use App\Events\ShowdownNotification;
 use App\Http\Controllers\PerformanceController;
 use App\Http\Controllers\ShowdownController;
 use App\Http\Controllers\StatsController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
