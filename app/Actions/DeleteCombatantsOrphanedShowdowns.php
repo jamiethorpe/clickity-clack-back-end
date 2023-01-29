@@ -5,6 +5,7 @@ namespace App\Actions;
 use App\Events\CombatantAddedToShowdown;
 use App\Models\Showdown;
 use App\Models\User;
+use Illuminate\Support\Facades\Log;
 use Lorisleiva\Actions\Concerns\AsAction;
 
 class DeleteCombatantsOrphanedShowdowns
@@ -19,9 +20,14 @@ class DeleteCombatantsOrphanedShowdowns
      */
     public function handle(User $combatant, Showdown $showdown): void
     {
-        $combatant->showdowns()->whereNot('id', $showdown->id)
-            ->whereNull('user_id')
-            ->delete();
+        Log::info("Deleting orphaned showdowns for combatant {$combatant->id}");
+
+        $showdownsIds = Showdown::whereNot('id', $showdown->id)
+            ->includingCombatant($combatant)->waitingForOpponent()->get()->pluck('id');
+
+        $count = Showdown::destroy($showdownsIds);
+        
+        Log::info("Deleted $count orphaned showdowns for combatant {$combatant->id}");
     }
 
     public function asListener(CombatantAddedToShowdown $event): void

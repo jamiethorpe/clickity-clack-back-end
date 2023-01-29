@@ -36,8 +36,32 @@ class Showdown extends Model
         return $this->hasMany(Round::class);
     }
 
+    public function scopeWaitingForOpponent(Builder $query)
+    {
+        return $query->withCount('combatants')->having('combatants_count', '<', 2);
+    }
+
+    public function scopeExcludingCombatant(Builder $query, User $user)
+    {
+        return $query->whereDoesntHave('combatants', function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        });
+    }
+
+    public function scopeIncludingCombatant(Builder $query, User $user)
+    {
+        return $query->whereHas('combatants', function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        });
+    }
+
     public function scopeCompleted(Builder $query)
     {
         return $query->whereNotNull('showdowns.user_id');
+    }
+
+    public function scopeNotCompleted(Builder $query)
+    {
+        return $query->whereNull('showdowns.user_id');
     }
 }

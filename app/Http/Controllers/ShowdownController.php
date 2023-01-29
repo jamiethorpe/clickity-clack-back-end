@@ -18,7 +18,8 @@ class ShowdownController extends Controller
             $user = CreateAnonymousUser::run();
         }
 
-        $showdown = Showdown::whereNot('user_id', $user->id)
+        $showdown = Showdown::notCompleted()
+            ->excludingCombatant($user)
             ->withCount('combatants')
             ->having('combatants_count', '<', 2)
             ->first();
