@@ -3,6 +3,7 @@
 namespace App\Actions;
 
 use App\Models\Showdown;
+use Illuminate\Support\Facades\Log;
 use Lorisleiva\Actions\Concerns\AsAction;
 
 class CreateShowdown
@@ -11,7 +12,13 @@ class CreateShowdown
 
     public function handle()
     {
+        Log::info("Creating showdown");
+
         // TODO - dispatch job that cancels showdown and emits event if not completed in X time
-        return Showdown::create();
+        $showdown = Showdown::create();
+
+        Log::info("Showdown created: {$showdown->id}");
+
+        return $showdown;
     }
 }

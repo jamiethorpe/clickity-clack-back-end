@@ -2,8 +2,8 @@
 
 namespace App\Actions;
 
-use App\Models\Round;
 use App\Models\Showdown;
+use Illuminate\Support\Facades\Log;
 use Lorisleiva\Actions\Concerns\AsAction;
 
 class CreateRounds
@@ -12,6 +12,8 @@ class CreateRounds
 
     public function handle(Showdown $showdown, int $numberOfRounds = null)
     {
+        Log::info("Creating $numberOfRounds rounds for showdown {$showdown->id}");
+
         $numberOfRounds = $numberOfRounds ?? config('showdown.rounds');
 
         for ($i = 0; $i < $numberOfRounds; $i++) {
@@ -19,6 +21,8 @@ class CreateRounds
                 'technique' => CreateTechnique::run(rand(2, 6)),
             ]);
         }
+
+        Log::info("$numberOfRounds rounds created for showdown {$showdown->id}");
 
         return $showdown->rounds;
     }

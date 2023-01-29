@@ -29,3 +29,5 @@ Route::post('/showdown/{showdown}/round/{round}/performance', [PerformanceContro
 
 Route::get('/users/{user}/stats/win-loss', [StatsController::class, 'winLoss'])
     ->name('stats.win-loss');
+
+Route::post('/pusher/channel-vacated');
