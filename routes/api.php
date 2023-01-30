@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PerformanceController;
+use App\Http\Controllers\PusherController;
 use App\Http\Controllers\ShowdownController;
 use App\Http\Controllers\StatsController;
 use Illuminate\Support\Facades\Route;
@@ -30,4 +31,6 @@ Route::post('/showdown/{showdown}/round/{round}/performance', [PerformanceContro
 Route::get('/users/{user}/stats/win-loss', [StatsController::class, 'winLoss'])
     ->name('stats.win-loss');
 
-Route::post('/pusher/channel-vacated');
+Route::post('/pusher/channel-vacated', [PusherController::class, 'channelVacated'])
+    ->name('pusher.channel-vacated');
+
