@@ -34,3 +34,6 @@ Route::get('/users/{user}/stats/win-loss', [StatsController::class, 'winLoss'])
 Route::post('/pusher/channel-vacated', [PusherController::class, 'channelVacated'])
     ->name('pusher.channel-vacated');
 
+Route::get('/health-check', function () {
+    return response()->json(['status' => 'ok']);
+})->name('health-check');
