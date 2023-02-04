@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Log;
 
 class PusherChannelVacatedRequest extends FormRequest
 {
@@ -14,17 +13,7 @@ class PusherChannelVacatedRequest extends FormRequest
      */
     public function authorize()
     {
-        Log::info('Pusher channel vacated request');
-        $signature = $this->header('X-Pusher-Signature');
-
-        Log::info('Pusher channel vacated', [
-            'signature' => $signature,
-            'myHash' => hash_hmac(
-                'sha256',
-                $this->getContent(),
-                config('broadcasting.connections.pusher.secret')
-            ),
-        ]);
+        $signature = $this->header('x-pusher-signature');
 
         return hash_equals(
             $signature,

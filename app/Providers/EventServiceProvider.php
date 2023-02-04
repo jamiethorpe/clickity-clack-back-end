@@ -5,9 +5,7 @@ namespace App\Providers;
 use App\Actions\DeleteCombatantsOrphanedShowdowns;
 use App\Events\CombatantAddedToShowdown;
 use App\Events\PerformanceCreated;
-use App\Events\RoundCompleted;
 use App\Listeners\HandlePerformanceCreated;
-use App\Listeners\HandleRoundCompleted;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
@@ -26,9 +24,9 @@ class EventServiceProvider extends ServiceProvider
             HandlePerformanceCreated::class,
         ],
 
-        RoundCompleted::class => [
-            HandleRoundCompleted::class,
-        ],
+//        RoundCompleted::class => [
+//            HandleRoundCompleted::class,
+//        ],
     ];
 
     /**
