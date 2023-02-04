@@ -14,6 +14,7 @@ class PusherChannelVacatedRequest extends FormRequest
      */
     public function authorize()
     {
+        Log::info('Pusher channel vacated request');
         $signature = $this->header('X-Pusher-Signature');
 
         Log::info('Pusher channel vacated', [

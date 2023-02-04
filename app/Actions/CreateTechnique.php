@@ -13,7 +13,7 @@ class CreateTechnique
     {
         Log::info("Creating technique with $numberOfWords words");
 
-        $technique = fake()->words($numberOfWords, true);
+        $technique = "this is the test phrase";
 
         Log::info("Technique created: $technique");
 
