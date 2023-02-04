@@ -19,9 +19,13 @@ class CompleteRound
         // TODO - handle possible ties
         $round->save();
 
-        RoundCompleted::dispatch($round);
-
         Log::info("Round {$round->id} completed");
+
+        if ($winner = DetermineIfShowdownHasWinner::run($round->refresh()->showdown)) {
+            CompleteShowdown::run($round->showdown, $winner);
+        } else {
+            RoundCompleted::dispatch($round);
+        }
 
         return $round;
     }

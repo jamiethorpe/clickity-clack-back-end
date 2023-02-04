@@ -12,9 +12,9 @@ use Illuminate\Http\Request;
 
 class ShowdownController extends Controller
 {
-    public function join(Request $request, User $user = null)
+    public function join(Request $request, ?string $userId = null)
     {
-        if (!$user) {
+        if (!$user = User::find($userId)) {
             $user = CreateAnonymousUser::run();
         }
 

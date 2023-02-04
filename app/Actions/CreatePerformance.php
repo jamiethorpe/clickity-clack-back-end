@@ -21,8 +21,8 @@ class CreatePerformance
             'duration' => $duration,
         ]);
 
-        PerformanceCreated::dispatch($performance);
-
         Log::info("Performance created for user {$user->id} in round {$round->id}");
+
+        PerformanceCreated::dispatch($performance);
     }
 }

@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 //    return $request->user();
 //});
 
-Route::get('/showdown/join/{user?}', [ShowdownController::class, 'join'])->name('showdown.join');
+Route::get('/showdown/join/{userId?}', [ShowdownController::class, 'join'])->name('showdown.join');
 
 Route::get('/showdown/{showdown}/confirm', [ShowdownController::class, 'confirm'])->name('showdown.confirm');
 
