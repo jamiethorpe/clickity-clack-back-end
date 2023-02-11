@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\PerformanceController;
 use App\Http\Controllers\PusherController;
 use App\Http\Controllers\ShowdownController;
@@ -17,9 +19,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//    return $request->user();
-//});
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::get('/test', function (Request $request) {
+        return 'still allowed';
+    })->name('test');
+
+    Route::post('/logout', [AuthenticationController::class, 'logout'])->name('logout');
+});
+
+Route::post('/login', [AuthenticationController::class, 'login'])->name('login');
+
+Route::post('/register', [AuthenticationController::class, 'register'])->name('register');
+
+Route::post('/password-reset/send', [PasswordResetController::class, 'send'])
+    ->name('password-reset.send');
+
+Route::post('/password-reset/update', [PasswordResetController::class, 'update'])
+    ->name('password-reset.update');
 
 Route::get('/showdown/join/{userId?}', [ShowdownController::class, 'join'])->name('showdown.join');
 

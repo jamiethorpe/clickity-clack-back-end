@@ -64,4 +64,18 @@ return [
         'encrypt_cookies' => App\Http\Middleware\EncryptCookies::class,
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Token Settings
+    |--------------------------------------------------------------------------
+    |
+    | Basic settings for the tokens that are issued by Sanctum.
+    |
+    */
+
+    'tokens' => [
+        'access' => [
+            'name' => env('DEFAULT_AUTH_TOKEN_NAME', 'user_access_token'),
+        ]
+    ]
 ];
