@@ -25,8 +25,8 @@ class RegisterRequest extends FormRequest
     {
         return [
             // TODO - prevent people from using really terrible names
-            'name' => 'required|string',
-            'email' => 'required|email',
+            'name' => 'required|string|unique:users,name',
+            'email' => 'required|email|unique:users,email',
             'password' => 'required|string',
             'password_confirmation' => 'required|string|same:password',
         ];
