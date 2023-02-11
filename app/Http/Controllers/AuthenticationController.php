@@ -3,13 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Actions\CreateUser;
+use App\Actions\LoginUser;
+use App\Actions\UpdateUser;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\ValidationException;
 
 class AuthenticationController extends Controller
 {
@@ -20,10 +19,7 @@ class AuthenticationController extends Controller
                 $user = CreateUser::run(...$request->only(['name', 'email', 'password']));
             } else {
                 $user = User::find($request->input('id'));
-                $user->name = $request->input('name');
-                $user->email = $request->input('email');
-                $user->password = Hash::make($request->input('password'));
-                $user->save();
+                UpdateUser::run($user, $request->only(['name', 'email', 'password']));
             }
         } catch (\Exception $e) {
             return response()->json([
@@ -31,7 +27,7 @@ class AuthenticationController extends Controller
             ], 500);
         }
 
-        $token = $user->createToken(config('sanctum.tokens.access.name'))->plainTextToken;
+        $token = LoginUser::run($user->email, $request->input('password'));
 
         return response()->json([
             'token' => $token,
@@ -41,15 +37,9 @@ class AuthenticationController extends Controller
 
     public function login(LoginRequest $request)
     {
-        if (Auth::attempt($request->only(['email', 'password']))) {
-            $user = Auth::user();
-            $token = $user->createToken(config('sanctum.tokens.access.name'))->plainTextToken;;
-            return response()->json(['token' => $token]);
-        } else {
-            throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
-            ]);
-        }
+        $token = LoginUser::run(...$request->only(['email', 'password']));
+
+        return response()->json(['token' => $token]);
     }
 
     public function logout(Request $request)
