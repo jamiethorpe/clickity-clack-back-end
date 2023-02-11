@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Actions\CreateUser;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
 class AuthenticationController extends Controller
@@ -14,7 +16,15 @@ class AuthenticationController extends Controller
     public function register(RegisterRequest $request)
     {
         try {
-            $user = CreateUser::run(...$request->only(['name', 'email', 'password']));
+            if (!$request->input('id')) {
+                $user = CreateUser::run(...$request->only(['name', 'email', 'password']));
+            } else {
+                $user = User::find($request->input('id'));
+                $user->name = $request->input('name');
+                $user->email = $request->input('email');
+                $user->password = Hash::make($request->input('password'));
+                $user->save();
+            }
         } catch (\Exception $e) {
             return response()->json([
                 'message' => $e->getMessage(),

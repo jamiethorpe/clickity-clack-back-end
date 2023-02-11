@@ -25,6 +25,7 @@ class RegisterRequest extends FormRequest
     {
         return [
             // TODO - prevent people from using really terrible names
+            'id' => 'nullable|exists:users,id',
             'name' => 'required|string|unique:users,name',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string',
