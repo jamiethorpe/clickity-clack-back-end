@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\PerformanceController;
 use App\Http\Controllers\PusherController;
 use App\Http\Controllers\ShowdownController;
@@ -30,6 +31,8 @@ Route::post('/login', [AuthenticationController::class, 'login'])->name('login')
 
 Route::post('/register', [AuthenticationController::class, 'register'])->name('register');
 
+Route::post('/password-reset/send', [PasswordResetController::class, 'send'])
+    ->name('password-reset.send');
 
 Route::get('/showdown/join/{userId?}', [ShowdownController::class, 'join'])->name('showdown.join');
 
