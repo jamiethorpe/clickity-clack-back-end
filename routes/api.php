@@ -34,6 +34,9 @@ Route::post('/register', [AuthenticationController::class, 'register'])->name('r
 Route::post('/password-reset/send', [PasswordResetController::class, 'send'])
     ->name('password-reset.send');
 
+Route::post('/password-reset/update', [PasswordResetController::class, 'update'])
+    ->name('password-reset.update');
+
 Route::get('/showdown/join/{userId?}', [ShowdownController::class, 'join'])->name('showdown.join');
 
 Route::get('/showdown/{showdown}/confirm', [ShowdownController::class, 'confirm'])->name('showdown.confirm');
